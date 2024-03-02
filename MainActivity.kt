@@ -47,11 +47,15 @@ class MainActivity : ComponentActivity() {
         binding.textView1.append((view as Button).text)
     }
 
+    var opens = 0
+    var closes = 0
+
     fun onEqualClick (view: View)
     {
-        var last = binding.textView1.text.toString().last()
+        val last = binding.textView1.text.toString().last()
 
-        if (last.equals("+") || last.equals("-") || last.equals("*") || last.equals("/")) {
+        if (last=='+'|| last=='-' || last=='*' || last=='/' || last=='%')
+        {
             val text = "Enter expression after operator"
             val duration = Toast.LENGTH_SHORT
             val toast = Toast.makeText(applicationContext, text, duration)
@@ -59,7 +63,15 @@ class MainActivity : ComponentActivity() {
         }
 
         else {
-            onEqual()
+            if (opens != closes) {
+                val text = "Parenthesis don't match"
+                val duration = Toast.LENGTH_SHORT
+                val toast = Toast.makeText(applicationContext, text, duration)
+                toast.show()
+            }
+
+            else
+                onEqual()
         }
     }
 
@@ -75,6 +87,12 @@ class MainActivity : ComponentActivity() {
 
     fun onOperatorClick(view: View)
     {
-        binding.textView1.append((view as Button).text)
+        val character = (view as Button).text
+        binding.textView1.append(character)
+
+        if (character=="(")
+            opens += 1
+        else if (character==")")
+            closes += 1
     }
 }
